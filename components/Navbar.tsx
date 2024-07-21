@@ -21,23 +21,23 @@ const routes = [
         color: "text-[#38B2AC]",
     },
     {
-        label: "Code Generation",
+        label: "Code Generator",
         icon: Code,
         href: "/code",
         color: "text-[#A0D6E2]"
     },
     {
-        label: "Image Generation",
+        label: "Image Generator",
         icon: Images,
         href: "/images",
         color: "text-[#7C4DFF]"
     },{
-        label: "Video Generation",
+        label: "Video Generator",
         icon: Video,
         href: "/video",
         color: "text-[#4CAF50]"
     },{
-        label: "Music Generation",
+        label: "Music Generator",
         icon: Music,
         href: "/music",
         color: "text-[#F4511E]"
