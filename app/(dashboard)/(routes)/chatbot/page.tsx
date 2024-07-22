@@ -78,7 +78,7 @@ const ChatBot = () => {
     <div>
       <Heading
         title="ChatBot"
-        description="Engage in intelligent conversations with our AI-powered chatbot, designed to assist you with a wide range of queries."
+        description="Engage in intelligent conversations with our Gemini-powered chatbot, designed to assist you with a wide range of queries."
         icon={MessageCircleMoreIcon}
         iconColor="text-[#38B2AC]"
         backgroundColor="bg-[#38B2AC]/10"
@@ -107,7 +107,6 @@ const ChatBot = () => {
                         // Restart typing effect if needed
                         setPlaceholder(examplePrompts[loopNum % examplePrompts.length]);
                       }}
-                      onInput={() => setIsFocused(true)}
                     />
                   </FormControl>
                 </FormItem>
@@ -118,6 +117,11 @@ const ChatBot = () => {
             </Button>
           </form>
         </Form>
+      </div>
+      <div className="px-4 lg:px-8 mt-6">
+        <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 text-center">
+          My reply to your message
+        </div>
       </div>
     </div>
   );
