@@ -24,8 +24,8 @@ const features = [
   {
     label: "Code Generator",
     icon: Code,
-    color: "text-[#A0D6E2]",
-    bgcolor: "bg-[#A0D6E2]/10",
+    color: "text-[#65bdd0]",
+    bgcolor: "bg-[#65bdd0]/10",
     href: "/code",
     description: "Generate code snippets effortlessly with our AI."
   },
