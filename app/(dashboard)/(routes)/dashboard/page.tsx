@@ -3,16 +3,14 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
-  ArrowBigRight,
   ArrowRight,
   Code,
-  Icon,
   Images,
-  MessageCircle,
   MessageCircleMore,
   Music,
   Video,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const features = [
   {
@@ -58,21 +56,25 @@ const features = [
 ];
 
 const DashboardArea = () => {
+  const router = useRouter();
   return (
     <div>
       <div className="mb-4 space-y-4">
         <h2 className="text-2xl md:text-4xl font-bold text-center">
-          The Future Is AI
+        The Future of Work Starts Here. Your AI Partner.
         </h2>
         <p className="text-muted-foreground font-light text-sm text-center md:text-lg text-center">
-          And We're Leading The Way.
+          Where Technology Meets Tomorrow
         </p>
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-4">
         {features.map((feature) => (
           <Card
+          onClick={()=>
+            router.push(feature.href)
+          }
             key={feature.href}
-            className="flex items-center justify-between p-4 border-black/5 hover:shadow-md transition cursor-pointer"
+            className="flex items-center justify-between p-4 border-black/5 hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
           >
             <div className="flex items-center gap-x-4">
               <div className={cn("p-2 w-fit rounded-md", feature.bgcolor)}>
