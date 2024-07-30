@@ -31,14 +31,11 @@ export async function POST(req: Request) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log("I am here!")
-    console.log(text)
     return NextResponse.json({ text });
 
   } catch (error: unknown) {
     console.log("[GENERATIVE_AI_ERROR]", error);
     if (error instanceof Error) {
-      console.log("I am also here :(")
       return new NextResponse(`Internal Error: ${error.message}`, { status: 500 });
     }
     return new NextResponse("Internal Error", { status: 500 });

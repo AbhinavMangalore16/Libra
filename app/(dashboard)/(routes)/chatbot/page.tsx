@@ -16,6 +16,9 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
 import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/UserAvatar";
+import { AssistantAvatar } from "@/components/AssistantAvatar";
+import Markdown from "react-markdown";
 
 const ChatBot: React.FC = () => {
   const router = useRouter();
@@ -168,13 +171,18 @@ const ChatBot: React.FC = () => {
             <div
               key={index}
               className={cn(
-                "p-8 w-full flex items-start gapa-x-8 rounded-lg",
+                "p-8 w-full flex items-start gap-x-8 rounded-lg",
                 msg.role === "user"
                   ? "bg-white border border-black/10"
                   : "bg-muted"
               )}
             >
-              {typeof msg.content === "string" ? msg.content : msg.content}
+              {msg.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
+              <p className="text-sm">
+                <Markdown>
+                  {typeof msg.content === "string" ? msg.content : null}
+                </Markdown>
+              </p>
             </div>
           ))}
         </div>
