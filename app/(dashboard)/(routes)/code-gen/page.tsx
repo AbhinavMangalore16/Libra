@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as zod from "zod";
 import Heading from "@/components/Heading";
-import { MessageCircleMoreIcon } from "lucide-react";
+import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,8 +19,9 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
+import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
-const ChatBot: React.FC = () => {
+const CodeGen: React.FC = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<
     { role: "system" | "user" | "assistant"; content: string }[]
@@ -39,7 +40,7 @@ const ChatBot: React.FC = () => {
         role: "user",
         content: values.prompt,
       };
-      const response = await axios.post("/api/chatbot", {
+      const response = await axios.post("/api/code-gen", {
         prompt: values.prompt,
       });
       const botMsg: ChatCompletionMessageParam = {
@@ -56,16 +57,16 @@ const ChatBot: React.FC = () => {
   };
 
   const examplePrompts = [
-    "Explain superconductors",
-    "Write a story in my favourite genre",
-    "Plan a relaxing day in Goa",
-    "How do planes fly?",
-    "Pick outfit to look great on camera",
-    "Suggest a recipe with what's in my kitchen",
-    "Create a workout plan",
-    "Quiz me on world capitals",
-    "How to overcome procrastination?",
-    "Write an essay on road accidents",
+    "Write a Dockerfile to containerize a simple web application",
+    "Generate a bash script to automate backups of a directory",
+    "Write a function in JavaScript to reverse a string",
+    "Generate a Python script to read a CSV file and print the contents",
+    "Create a SQL query to find all users older than 30",
+    "Write a React component to display a list of items",
+    "Generate a CSS snippet for a responsive navigation bar",
+    "Write a unit test in Jest for a function that adds two numbers",
+    "Generate a Java class to model a car with properties for make, model, and year",
+    "Create a REST API endpoint in Node.js using Express to get all products",
   ];
 
   const [placeholder, setPlaceholder] = useState("");
@@ -115,11 +116,11 @@ const ChatBot: React.FC = () => {
   return (
     <div>
       <Heading
-        title="ChatBot"
-        description="Engage in intelligent conversations with our Gemini-powered chatbot, designed to assist you with a wide range of queries."
-        icon={MessageCircleMoreIcon}
-        iconColor="text-[#38B2AC]"
-        backgroundColor="bg-[#38B2AC]/10"
+        title="Code Generator"
+        description="Your coding copilot to automate code generation across multiple languages and frameworks using our Gemini-powered AI."
+        icon={Code}
+        iconColor="text-[#6c9cfc]"
+        backgroundColor="bg-[#6c9cfc]/10"
         textColor="text-[#333]"
       />
       <div className="px-4 lg:px-8">
@@ -153,7 +154,7 @@ const ChatBot: React.FC = () => {
               )}
             />
             <Button
-              className="col-span-12 lg:col-span-2 w-full bg-teal-700"
+              className="col-span-12 lg:col-span-2 w-full bg-[#6c9cfc]"
               disabled={loading}
             >
               {loading ? "Generating..." : "Generate"}
@@ -164,7 +165,7 @@ const ChatBot: React.FC = () => {
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading />}
         {messages.length === 0 && !loading && (
-          <Nothing label="Nothing in here! No conversation initiated." />
+          <NothingWhatSoEver label="Nothing in here! No conversation initiated." />
         )}
         <div className="flex flex-col-reverse gap-y-4">
           {messages.map((msg, index) => (
@@ -179,7 +180,17 @@ const ChatBot: React.FC = () => {
             >
               {msg.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
               <p className="text-sm">
-                <Markdown>
+                <Markdown components={{
+                  pre: ({node, ...props}) =>(
+                    <div className="overflow-auto w-full my-2 bg-[#0f182c]/10 p-2 rounded-lg">
+                      <pre {...props}/>
+                    </div>
+                  ),
+                  code: ({node, ...props}) =>(
+                    <code className="bg-[#0f182c]/5 p-1 rounded-lg" {...props}/>
+                  )
+                }}
+                className="text-sm overflow-hidden leading-7">
                   {typeof msg.content === "string" ? msg.content : null}
                 </Markdown>
               </p>
@@ -191,4 +202,4 @@ const ChatBot: React.FC = () => {
   );
 };
 
-export default ChatBot;
+export default CodeGen;
