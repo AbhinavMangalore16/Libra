@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -52,6 +52,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        rippleColor: '#00E7FF', // Add ripple color here
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -67,14 +68,23 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        ripple: {
+          '0%': {
+            boxShadow: '0 0 0 0 rgba(0, 231, 255, 0.3), 0 0 0 10px rgba(0, 231, 255, 0.3), 0 0 0 30px rgba(0, 231, 255, 0.3), 0 0 0 60px rgba(0, 231, 255, 0.3)',
+          },
+          '100%': {
+            boxShadow: '0 0 0 10px rgba(0, 231, 255, 0.3), 0 0 0 30px rgba(0, 231, 255, 0.3), 0 0 0 60px rgba(0, 231, 255, 0.3), 0 0 0 90px rgba(0, 231, 255, 0)',
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        ripple: "ripple 0.7s linear infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

@@ -10,8 +10,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { Nothing } from "@/components/Nothing";
+import { Loading } from "@/components/Loading";
+import { cn } from "@/lib/utils";
 
-const ChatBot = () => {
+const ChatBot: React.FC = () => {
+  const router = useRouter();
+  const [messages, setMessages] = useState<
+    { role: "system" | "user" | "assistant"; content: string }[]
+  >([]);
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,7 +31,25 @@ const ChatBot = () => {
 
   const loading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      const userMsg: ChatCompletionMessageParam = {
+        role: "user",
+        content: values.prompt,
+      };
+      const response = await axios.post("/api/chatbot", {
+        prompt: values.prompt,
+      });
+      const botMsg: ChatCompletionMessageParam = {
+        role: "assistant",
+        content: response.data.text,
+      };
+      setMessages((current: any) => [...current, userMsg, botMsg]);
+      form.reset();
+    } catch (error: any) {
+      console.error("Error generating response:", error);
+    } finally {
+      router.refresh();
+    }
   };
 
   const examplePrompts = [
@@ -34,7 +62,7 @@ const ChatBot = () => {
     "Create a workout plan",
     "Quiz me on world capitals",
     "How to overcome procrastination?",
-    "Write an essay on road accidents"
+    "Write an essay on road accidents",
   ];
 
   const [placeholder, setPlaceholder] = useState("");
@@ -72,7 +100,14 @@ const ChatBot = () => {
     const timer = setTimeout(handleType, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [placeholder, isDeleting, loopNum, typingSpeed, examplePrompts, isFocused]);
+  }, [
+    placeholder,
+    isDeleting,
+    loopNum,
+    typingSpeed,
+    examplePrompts,
+    isFocused,
+  ]);
 
   return (
     <div>
@@ -105,22 +140,43 @@ const ChatBot = () => {
                       onBlur={() => {
                         setIsFocused(false);
                         // Restart typing effect if needed
-                        setPlaceholder(examplePrompts[loopNum % examplePrompts.length]);
+                        setPlaceholder(
+                          examplePrompts[loopNum % examplePrompts.length]
+                        );
                       }}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-            <Button className="col-span-12 lg:col-span-2 w-full bg-teal-700" disabled={loading}>
+            <Button
+              className="col-span-12 lg:col-span-2 w-full bg-teal-700"
+              disabled={loading}
+            >
               {loading ? "Generating..." : "Generate"}
             </Button>
           </form>
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 text-center">
-          My reply to your message
+        {loading && <Loading />}
+        {messages.length === 0 && !loading && (
+          <Nothing label="Nothing in here! No conversation initiated." />
+        )}
+        <div className="flex flex-col-reverse gap-y-4">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={cn(
+                "p-8 w-full flex items-start gapa-x-8 rounded-lg",
+                msg.role === "user"
+                  ? "bg-white border border-black/10"
+                  : "bg-muted"
+              )}
+            >
+              {typeof msg.content === "string" ? msg.content : msg.content}
+            </div>
+          ))}
         </div>
       </div>
     </div>
