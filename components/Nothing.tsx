@@ -13,9 +13,9 @@ export const Nothing = ({
                 <Image alt="Nothing is here!" fill
                 src="/nothing-here.png"/>
             </div>
-            <p className="text-muted-foreground text-base text-center">
+            <div className="text-muted-foreground text-base text-center">
                 {label}
-            </p>
+            </div>
         </div>
     )
 }

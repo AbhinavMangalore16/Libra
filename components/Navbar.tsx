@@ -23,8 +23,8 @@ const routes = [
     {
         label: "Code Generator",
         icon: Code,
-        href: "/code",
-        color: "text-[#A0D6E2]"
+        href: "/code-gen",
+        color: "text-[#6c9cfc]"
     },
     {
         label: "Image Generator",
