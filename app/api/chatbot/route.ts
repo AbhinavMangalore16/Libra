@@ -2,10 +2,15 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+interface SafetyRatingProp {
+  category: string;
+  probability: string;
+}
 // Ensure environment variable is properly loaded
 if (!process.env.GOOGLE_GENERATIVE_AI_KEY) {
   throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
 }
+
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY);
 
@@ -31,6 +36,7 @@ export async function POST(req: Request) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
+
     return NextResponse.json({ text });
 
   } catch (error: unknown) {
