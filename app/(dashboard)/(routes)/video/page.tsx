@@ -23,7 +23,7 @@ import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
 const MusicGen: React.FC = () => {
   const router = useRouter();
-  const [music, setMusic] = useState<string>();
+  const [video, setVideo] = useState<string>();
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,9 +34,9 @@ const MusicGen: React.FC = () => {
   const loading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {
-      setMusic(undefined);
-      const response = await axios.post("/api/music", values);
-      setMusic(response.data.audio);
+      setVideo(undefined);
+      const response = await axios.post("/api/video", values);
+      setVideo(response.data[0]);
       form.reset();
     } catch (error: any) {
       console.error("Error generating response:", error);
@@ -105,7 +105,7 @@ const MusicGen: React.FC = () => {
     <div>
       <Heading
         title="Video Generator"
-        description="Generate original music tracks and melodies using our Replicate-powered AI, tailored to your specific needs and genres."
+        description="Generate unique and engaging videos using our advanced AI technology to specific themes and styles,"
         icon={Video}
         iconColor="text-[#4CAF50]"
         backgroundColor="bg-[#4CAF50]/10"
@@ -152,13 +152,13 @@ const MusicGen: React.FC = () => {
       </div>
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#4CAF50"/>}
-        {!music && !loading && (
-          <Nothing label="Nothing in here! No conversation initiated." />
+        {!video && !loading && (
+          <Nothing label="No video generated." imageSrc="/video-prod.png"/>
         )}
-        {music && (
-            <audio controls className="w-full mt-4">
-              <source src={music}/>
-            </audio>
+        {video && (
+            <video className=" w-full aspect-video mt-4 rounded-lg border-bg-grey" controls>
+              <source src={video}/>
+            </video>
           )}
       </div>
     </div>

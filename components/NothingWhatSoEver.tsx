@@ -3,9 +3,11 @@ import Image from "next/image";
 
 interface NothingWhatSoEverProps {
   label: string;
+  normalImageSrc: string;
+  hoverImageSrc: string;
 }
 
-export const NothingWhatSoEver = ({ label }: NothingWhatSoEverProps) => {
+export const NothingWhatSoEver = ({ label, normalImageSrc, hoverImageSrc }: NothingWhatSoEverProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -16,16 +18,16 @@ export const NothingWhatSoEver = ({ label }: NothingWhatSoEverProps) => {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Image
-          alt="Nothing is here!"
+          alt="Normal view"
           fill
           className={`transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-0" : "opacity-100"}`}
-          src="/code-typing.png"
+          src={normalImageSrc}
         />
         <Image
-          alt="Domain Expansion: Infinite Void"
+          alt="Hover view"
           fill
           className={`absolute top-0 left-0 transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"}`}
-          src="/qr-code-easter-egg.png"
+          src={hoverImageSrc}
         />
       </div>
       <div className="text-muted-foreground text-base text-center">

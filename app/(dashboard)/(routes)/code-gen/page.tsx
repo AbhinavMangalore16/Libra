@@ -165,7 +165,7 @@ const CodeGen: React.FC = () => {
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#6c9cfc"/>}
         {messages.length === 0 && !loading && (
-          <NothingWhatSoEver label="Nothing in here! No conversation initiated." />
+          <NothingWhatSoEver label="Nothing in here! No conversation initiated." normalImageSrc="/code-typing.png" hoverImageSrc="/qr-code-easter-egg.png" />
         )}
         <div className="flex flex-col-reverse gap-y-4">
           {messages.map((msg, index) => (

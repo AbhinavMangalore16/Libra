@@ -164,7 +164,7 @@ const ChatBot: React.FC = () => {
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#38B2AC"/>}
         {messages.length === 0 && !loading && (
-          <Nothing label="Nothing in here! No conversation initiated." />
+          <Nothing label="Nothing in here! No conversation initiated." imageSrc="/nothing-here.png"/>
         )}
         <div className="flex flex-col-reverse gap-y-4">
           {messages.map((msg, index) => (

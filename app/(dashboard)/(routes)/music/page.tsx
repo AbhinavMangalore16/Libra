@@ -14,7 +14,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
-import { NoMusic } from "@/components/NoMusic";
+import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
 const MusicGen: React.FC = () => {
   const router = useRouter();
@@ -147,7 +147,7 @@ const MusicGen: React.FC = () => {
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#F4511E"/>}
         {!music && !loading && (
-          <NoMusic label="Nothing in here! Pure silence." />
+          <NothingWhatSoEver label="Nothing in here! Pure silence" normalImageSrc="/musical-pentagram.png" hoverImageSrc="/qr-code-easter-egg2.png" />
         )}
         {music && (
             <audio controls className="w-full mt-4">
