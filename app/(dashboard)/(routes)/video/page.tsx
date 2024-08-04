@@ -46,15 +46,16 @@ const MusicGen: React.FC = () => {
   };
 
   const examplePrompts = [
-    "Create a relaxing ambient track",
-    "Generate a catchy pop melody",
-    "Compose a classical piano piece",
-    "Make a hip-hop beat",
-    "Generate a jazz improvisation",
-    "Compose a soundtrack for a sci-fi movie",
-    "Create a rock guitar riff",
-    "Write a country song about heartbreak",
-    "Generate a techno track",
+    "Create a short video of a sunrise over a mountain range.",
+    "Generate a video of a bustling city street at night with neon lights.",
+    "Produce a video of a serene beach with waves gently crashing on the shore.",
+    "Create a time-lapse video of flowers blooming in a garden.",
+    "Generate a video of a calm forest with birds singing and leaves rustling.",
+    "Produce a video of a cozy fireplace with crackling flames and a softly glowing room.",
+    "Create a video of a fast-paced cityscape with cars and pedestrians moving.",
+    "Generate a video of a snowy landscape with falling snow and a distant mountain view.",
+    "Produce a video of a space scene with planets and stars slowly rotating.",
+    "Create a video of a waterfall cascading into a clear pool of water in a lush jungle.",
   ];
 
   const [placeholder, setPlaceholder] = useState("");
@@ -151,15 +152,18 @@ const MusicGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="#4CAF50"/>}
+        {loading && <Loading color="#4CAF50" />}
         {!video && !loading && (
-          <Nothing label="No video generated." imageSrc="/video-prod.png"/>
+          <Nothing label="No video generated." imageSrc="/video-prod.png" />
         )}
         {video && (
-            <video className=" w-full aspect-video mt-4 rounded-lg border-bg-grey" controls>
-              <source src={video}/>
-            </video>
-          )}
+          <video
+            className=" w-full aspect-video mt-4 rounded-lg border-bg-grey"
+            controls
+          >
+            <source src={video} />
+          </video>
+        )}
       </div>
     </div>
   );
