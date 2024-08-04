@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as zod from "zod";
 import Heading from "@/components/Heading";
-import { Code, Music, Video } from "lucide-react";
+import { Code, Image } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,9 +21,11 @@ import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
-const MusicGen: React.FC = () => {
+const CodeGen: React.FC = () => {
   const router = useRouter();
-  const [video, setVideo] = useState<string>();
+  const [messages, setMessages] = useState<
+    { role: "system" | "user" | "assistant"; content: string }[]
+  >([]);
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,9 +36,18 @@ const MusicGen: React.FC = () => {
   const loading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {
-      setVideo(undefined);
-      const response = await axios.post("/api/video", values);
-      setVideo(response.data[0]);
+      const userMsg: ChatCompletionMessageParam = {
+        role: "user",
+        content: values.prompt,
+      };
+      const response = await axios.post("/api/code-gen", {
+        prompt: values.prompt,
+      });
+      const botMsg: ChatCompletionMessageParam = {
+        role: "assistant",
+        content: response.data.text,
+      };
+      setMessages((current: any) => [...current, userMsg, botMsg]);
       form.reset();
     } catch (error: any) {
       console.error("Error generating response:", error);
@@ -46,16 +57,16 @@ const MusicGen: React.FC = () => {
   };
 
   const examplePrompts = [
-    "Create a short video of a sunrise over a mountain range.",
-    "Generate a video of a bustling city street at night with neon lights.",
-    "Produce a video of a serene beach with waves gently crashing on the shore.",
-    "Create a time-lapse video of flowers blooming in a garden.",
-    "Generate a video of a calm forest with birds singing and leaves rustling.",
-    "Produce a video of a cozy fireplace with crackling flames and a softly glowing room.",
-    "Create a video of a fast-paced cityscape with cars and pedestrians moving.",
-    "Generate a video of a snowy landscape with falling snow and a distant mountain view.",
-    "Produce a video of a space scene with planets and stars slowly rotating.",
-    "Create a video of a waterfall cascading into a clear pool of water in a lush jungle.",
+    "Generate an image of a futuristic city skyline at sunset.",
+"Create an illustration of a magical forest with glowing plants and mystical creatures.",
+"Design a vibrant abstract pattern with geometric shapes and bold colors.",
+"Generate a detailed image of a cozy cabin in the mountains during winter.",
+"Create a realistic portrait of a person with a serene expression.",
+"Design an image of a bustling market street in a historic town.",
+"Generate an image of a serene beach with clear blue water and palm trees.",
+"Create an artistic representation of a space scene with planets and stars.",
+"Design an image of a classic car parked in front of a vintage diner.",
+"Generate a fantasy landscape with floating islands and a magical waterfall.",
   ];
 
   const [placeholder, setPlaceholder] = useState("");
@@ -105,11 +116,11 @@ const MusicGen: React.FC = () => {
   return (
     <div>
       <Heading
-        title="Video Generator"
-        description="Generate unique and engaging videos using our advanced AI technology to specific themes and styles,"
-        icon={Video}
-        iconColor="text-[#4CAF50]"
-        backgroundColor="bg-[#4CAF50]/10"
+        title="Image Generator"
+        description="Harness the power of Gemini AI to effortlessly create and customize images"
+        icon={Image}
+        iconColor="text-[#7C4DFF]"
+        backgroundColor="bg-[#7C4DFF]/10"
         textColor="text-[#333]"
       />
       <div className="px-4 lg:px-8">
@@ -143,7 +154,7 @@ const MusicGen: React.FC = () => {
               )}
             />
             <Button
-              className="col-span-12 lg:col-span-2 w-full bg-[#4CAF50]"
+              className="col-span-12 lg:col-span-2 w-full bg-[#7C4DFF]"
               disabled={loading}
             >
               {loading ? "Generating..." : "Generate"}
@@ -152,21 +163,43 @@ const MusicGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="#4CAF50" />}
-        {!video && !loading && (
-          <Nothing label="No video generated..... yet!" imageSrc="/video-prod.png" />
+        {loading && <Loading color="#6c9cfc"/>}
+        {messages.length === 0 && !loading && (
+          <NothingWhatSoEver label="Nothing in here! No conversation initiated." normalImageSrc="/code-typing.png" hoverImageSrc="/qr-code-easter-egg.png" />
         )}
-        {video && (
-          <video
-            className=" w-full aspect-video mt-4 rounded-lg border-bg-grey"
-            controls
-          >
-            <source src={video} />
-          </video>
-        )}
+        <div className="flex flex-col-reverse gap-y-4">
+          {messages.map((msg, index) => (
+            <div
+              key={msg.content}
+              className={cn(
+                "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                msg.role === "user"
+                  ? "bg-white border border-black/10"
+                  : "bg-muted"
+              )}
+            >
+              {msg.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
+              <p className="text-sm">
+                <Markdown components={{
+                  pre: ({node, ...props}) =>(
+                    <div className="overflow-auto w-full my-2 bg-[#0f182c]/10 p-2 rounded-lg">
+                      <pre {...props}/>
+                    </div>
+                  ),
+                  code: ({node, ...props}) =>(
+                    <code className="bg-[#0f182c]/5 p-1 rounded-lg" {...props}/>
+                  )
+                }}
+                className="text-sm overflow-hidden leading-7">
+                  {typeof msg.content === "string" ? msg.content : null}
+                </Markdown>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default MusicGen;
+export default CodeGen;
