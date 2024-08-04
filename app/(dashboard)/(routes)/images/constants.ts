@@ -4,9 +4,13 @@ export const formSchema = zod.object({
     prompt: zod.string().min(1, {
         message: "Image prompt is necessary",
     }),
-    amount: zod.string().min(1),
-    resolution: zod.string().min(1)
-})
+    amount: zod.enum(["1", "2", "3", "4", "5"], {
+        errorMap: () => ({ message: "Please select a valid amount" }),
+    }),
+    resolution: zod.enum(["256x256", "512x512", "1024x1024"], {
+        errorMap: () => ({ message: "Please select a valid resolution" }),
+    }),
+});
 
 export const amtOptions = [
     {
@@ -29,13 +33,11 @@ export const amtOptions = [
         value: "5",
         label: "5 photos"
     },
-
 ];
-
 
 export const resOptions = [
     {
-        res: "256x56",
+        res: "256x256",
         label: "256x256",
     },
     {
@@ -46,4 +48,4 @@ export const resOptions = [
         res: "1024x1024",
         label: "1024x1024",
     }
-]
+];

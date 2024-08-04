@@ -21,7 +21,7 @@ import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
-const MusicGen: React.FC = () => {
+const VideoGen: React.FC = () => {
   const router = useRouter();
   const [video, setVideo] = useState<string>();
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -169,4 +169,4 @@ const MusicGen: React.FC = () => {
   );
 };
 
-export default MusicGen;
+export default VideoGen;

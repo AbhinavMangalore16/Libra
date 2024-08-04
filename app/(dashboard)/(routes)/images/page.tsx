@@ -5,7 +5,7 @@ import * as zod from "zod";
 import Heading from "@/components/Heading";
 import { Code, Image } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { formSchema } from "./constants";
+import { amtOptions, formSchema, resOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -20,34 +20,33 @@ import { UserAvatar } from "@/components/UserAvatar";
 import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const CodeGen: React.FC = () => {
+const ImageGen: React.FC = () => {
   const router = useRouter();
-  const [messages, setMessages] = useState<
-    { role: "system" | "user" | "assistant"; content: string }[]
-  >([]);
+  const [images, setImages] = useState<string[]>([]);
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
+      amount: "1",
+      resolution: "512x512",
     },
   });
 
   const loading = form.formState.isSubmitting;
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {
-      const userMsg: ChatCompletionMessageParam = {
-        role: "user",
-        content: values.prompt,
-      };
-      const response = await axios.post("/api/code-gen", {
-        prompt: values.prompt,
-      });
-      const botMsg: ChatCompletionMessageParam = {
-        role: "assistant",
-        content: response.data.text,
-      };
-      setMessages((current: any) => [...current, userMsg, botMsg]);
+      setImages([]);
+      const response = await axios.post("/api/images", values);
+      const URLs = response.data.map((img: { url: string }) => img.url);
+      setImages(URLs);
       form.reset();
     } catch (error: any) {
       console.error("Error generating response:", error);
@@ -58,15 +57,15 @@ const CodeGen: React.FC = () => {
 
   const examplePrompts = [
     "Generate an image of a futuristic city skyline at sunset.",
-"Create an illustration of a magical forest with glowing plants and mystical creatures.",
-"Design a vibrant abstract pattern with geometric shapes and bold colors.",
-"Generate a detailed image of a cozy cabin in the mountains during winter.",
-"Create a realistic portrait of a person with a serene expression.",
-"Design an image of a bustling market street in a historic town.",
-"Generate an image of a serene beach with clear blue water and palm trees.",
-"Create an artistic representation of a space scene with planets and stars.",
-"Design an image of a classic car parked in front of a vintage diner.",
-"Generate a fantasy landscape with floating islands and a magical waterfall.",
+    "Create an illustration of a magical forest with glowing plants and mystical creatures.",
+    "Design a vibrant abstract pattern with geometric shapes and bold colors.",
+    "Generate a detailed image of a cozy cabin in the mountains during winter.",
+    "Create a realistic portrait of a person with a serene expression.",
+    "Design an image of a bustling market street in a historic town.",
+    "Generate an image of a serene beach with clear blue water and palm trees.",
+    "Create an artistic representation of a space scene with planets and stars.",
+    "Design an image of a classic car parked in front of a vintage diner.",
+    "Generate a fantasy landscape with floating islands and a magical waterfall.",
   ];
 
   const [placeholder, setPlaceholder] = useState("");
@@ -133,7 +132,7 @@ const CodeGen: React.FC = () => {
               name="prompt"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-10">
+                <FormItem className="col-span-12 lg:col-span-5">
                   <FormControl className="m-0 p-0">
                     <Input
                       {...field}
@@ -153,6 +152,61 @@ const CodeGen: React.FC = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {amtOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="resolution"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {resOptions.map((option) => (
+                        <SelectItem key={option.res} value={option.res}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
             <Button
               className="col-span-12 lg:col-span-2 w-full bg-[#7C4DFF]"
               disabled={loading}
@@ -163,43 +217,18 @@ const CodeGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="#6c9cfc"/>}
-        {messages.length === 0 && !loading && (
-          <NothingWhatSoEver label="Nothing in here! No conversation initiated." normalImageSrc="/code-typing.png" hoverImageSrc="/qr-code-easter-egg.png" />
+        {loading && <Loading color="#6c9cfc" />}
+        {images.length === 0 && !loading && (
+          <NothingWhatSoEver
+            label="No images generated"
+            normalImageSrc="/code-typing.png"
+            hoverImageSrc="/qr-code-easter-egg.png"
+          />
         )}
-        <div className="flex flex-col-reverse gap-y-4">
-          {messages.map((msg, index) => (
-            <div
-              key={msg.content}
-              className={cn(
-                "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                msg.role === "user"
-                  ? "bg-white border border-black/10"
-                  : "bg-muted"
-              )}
-            >
-              {msg.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
-              <p className="text-sm">
-                <Markdown components={{
-                  pre: ({node, ...props}) =>(
-                    <div className="overflow-auto w-full my-2 bg-[#0f182c]/10 p-2 rounded-lg">
-                      <pre {...props}/>
-                    </div>
-                  ),
-                  code: ({node, ...props}) =>(
-                    <code className="bg-[#0f182c]/5 p-1 rounded-lg" {...props}/>
-                  )
-                }}
-                className="text-sm overflow-hidden leading-7">
-                  {typeof msg.content === "string" ? msg.content : null}
-                </Markdown>
-              </p>
-            </div>
-          ))}
-        </div>
+        <div>Images rendered here</div>
       </div>
     </div>
   );
 };
 
-export default CodeGen;
+export default ImageGen;
