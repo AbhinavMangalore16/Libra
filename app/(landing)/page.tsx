@@ -88,12 +88,12 @@ const LandingPage = () => {
                 Welcome to MyWebsite, where technology meets tomorrow. Explore our AI-powered tools designed to enhance your productivity and creativity. From intelligent conversations to generating code, images, videos, and music, we've got you covered.
               </p>
               <div className="flex justify-center">
-                <Link href="/get-started">
+                <Link href="/">
                   <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     Get Started
                   </button>
                 </Link>
-                <Link href="/learn-more">
+                <Link href="/">
                   <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
                     Learn More
                   </button>
@@ -104,34 +104,6 @@ const LandingPage = () => {
               <img className="object-cover object-center rounded" alt="Hero" src="https://dummyimage.com/720x600" />
             </div>
           </div>
-        </section>
-        <section className="px-4 md:px-20 lg:px-32 space-y-4">
-          <h2 className="text-2xl md:text-4xl font-bold text-center">
-            Our Features
-          </h2>
-          <p className="text-muted-foreground font-light text-sm text-center md:text-lg text-center mb-8">
-            Discover the wide range of tools and services we offer to elevate your projects and tasks.
-          </p>
-          {features.map((feature) => (
-            <Card
-              onClick={() => router.push(feature.href)}
-              key={feature.href}
-              className="flex items-center justify-between p-4 border-black/5 hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 cursor-pointer"
-            >
-              <div className="flex items-center gap-x-4">
-                <div className={cn("p-2 w-fit rounded-md", feature.bgcolor)}>
-                  <feature.icon className={cn("w-8 h-8", feature.color)} />
-                </div>
-                <div>
-                  <div className="font-semibold">{feature.label}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {feature.description}
-                  </div>
-                </div>
-              </div>
-              <ArrowRight className="w-6 h-6" />
-            </Card>
-          ))}
         </section>
       </main>
       <footer className="bg-gray-800 text-white p-5 text-center">

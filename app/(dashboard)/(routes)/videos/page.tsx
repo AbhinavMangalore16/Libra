@@ -12,8 +12,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/UserAvatar";
+import { AssistantAvatar } from "@/components/AssistantAvatar";
+import Markdown from "react-markdown";
+import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 
 const MusicGen: React.FC = () => {
   const router = useRouter();
@@ -99,7 +105,7 @@ const MusicGen: React.FC = () => {
     <div>
       <Heading
         title="Music Generator"
-        description="Generate original music tracks and melodies using Riffusion, tailored to your specific needs and genres."
+        description="Generate original music tracks and melodies using our Replicate-powered AI, tailored to your specific needs and genres."
         icon={Music}
         iconColor="text-[#F4511E]"
         backgroundColor="bg-[#F4511E]/10"
@@ -125,6 +131,7 @@ const MusicGen: React.FC = () => {
                       onFocus={() => setIsFocused(true)}
                       onBlur={() => {
                         setIsFocused(false);
+                        // Restart typing effect if needed
                         setPlaceholder(
                           examplePrompts[loopNum % examplePrompts.length]
                         );
@@ -144,9 +151,9 @@ const MusicGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="[#F4511E]"/>}
+        {loading && <Loading color="#F4511E"/>}
         {!music && !loading && (
-          <Nothing label="Nothing in here! Pure silence." />
+          <Nothing label="Nothing in here! No conversation initiated." />
         )}
         {music && (
             <audio controls className="w-full mt-4">
