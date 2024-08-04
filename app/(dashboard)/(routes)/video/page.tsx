@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as zod from "zod";
 import Heading from "@/components/Heading";
-import { Code, Music } from "lucide-react";
+import { Code, Music, Video } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,11 +104,11 @@ const MusicGen: React.FC = () => {
   return (
     <div>
       <Heading
-        title="Music Generator"
+        title="Video Generator"
         description="Generate original music tracks and melodies using our Replicate-powered AI, tailored to your specific needs and genres."
-        icon={Music}
-        iconColor="text-[#F4511E]"
-        backgroundColor="bg-[#F4511E]/10"
+        icon={Video}
+        iconColor="text-[#4CAF50]"
+        backgroundColor="bg-[#4CAF50]/10"
         textColor="text-[#333]"
       />
       <div className="px-4 lg:px-8">
@@ -142,7 +142,7 @@ const MusicGen: React.FC = () => {
               )}
             />
             <Button
-              className="col-span-12 lg:col-span-2 w-full bg-[#F4511E]"
+              className="col-span-12 lg:col-span-2 w-full bg-[#4CAF50]"
               disabled={loading}
             >
               {loading ? "Generating..." : "Generate"}
@@ -151,7 +151,7 @@ const MusicGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="#F4511E"/>}
+        {loading && <Loading color="#4CAF50"/>}
         {!music && !loading && (
           <Nothing label="Nothing in here! No conversation initiated." />
         )}

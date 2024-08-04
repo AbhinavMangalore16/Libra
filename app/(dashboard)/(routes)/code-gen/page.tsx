@@ -163,7 +163,7 @@ const CodeGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading />}
+        {loading && <Loading color="#6c9cfc"/>}
         {messages.length === 0 && !loading && (
           <NothingWhatSoEver label="Nothing in here! No conversation initiated." />
         )}

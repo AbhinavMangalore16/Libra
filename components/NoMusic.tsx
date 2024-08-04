@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Image from "next/image";
 
-interface NothingWhatSoEverProps {
+interface NoMusicProps {
   label: string;
 }
 
-export const NothingWhatSoEver = ({ label }: NothingWhatSoEverProps) => {
+export const NoMusic = ({ label }: NoMusicProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -19,13 +19,13 @@ export const NothingWhatSoEver = ({ label }: NothingWhatSoEverProps) => {
           alt="Nothing is here!"
           fill
           className={`transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-0" : "opacity-100"}`}
-          src="/code-typing.png"
+          src="/musical-pentagram.png"
         />
         <Image
-          alt="Domain Expansion: Infinite Void"
+          alt="John Cage: 4'33"
           fill
           className={`absolute top-0 left-0 transition-opacity duration-300 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"}`}
-          src="/qr-code-easter-egg.png"
+          src="/qr-code-easter-egg2.png"
         />
       </div>
       <div className="text-muted-foreground text-base text-center">

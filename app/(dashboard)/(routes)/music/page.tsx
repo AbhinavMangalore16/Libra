@@ -14,6 +14,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
+import { NoMusic } from "@/components/NoMusic";
 
 const MusicGen: React.FC = () => {
   const router = useRouter();
@@ -144,9 +145,9 @@ const MusicGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="[#F4511E]"/>}
+        {loading && <Loading color="#F4511E"/>}
         {!music && !loading && (
-          <Nothing label="Nothing in here! Pure silence." />
+          <NoMusic label="Nothing in here! Pure silence." />
         )}
         {music && (
             <audio controls className="w-full mt-4">

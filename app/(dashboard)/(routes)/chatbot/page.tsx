@@ -162,7 +162,7 @@ const ChatBot: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading />}
+        {loading && <Loading color="#38B2AC"/>}
         {messages.length === 0 && !loading && (
           <Nothing label="Nothing in here! No conversation initiated." />
         )}
