@@ -219,10 +219,9 @@ const ImageGen: React.FC = () => {
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#6c9cfc" />}
         {images.length === 0 && !loading && (
-          <NothingWhatSoEver
+          <Nothing
             label="No images generated"
-            normalImageSrc="/code-typing.png"
-            hoverImageSrc="/qr-code-easter-egg.png"
+            
           />
         )}
         <div>Images rendered here</div>
