@@ -221,7 +221,7 @@ const ImageGen: React.FC = () => {
         {images.length === 0 && !loading && (
           <Nothing
             label="No images generated"
-            
+            imageSrc="/code-typing.png"
           />
         )}
         <div>Images rendered here</div>

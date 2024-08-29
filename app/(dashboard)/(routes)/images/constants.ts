@@ -29,23 +29,19 @@ export const amtOptions = [
         value: "4",
         label: "4 photos"
     },
-    {
-        value: "5",
-        label: "5 photos"
-    },
 ];
 
 export const resOptions = [
     {
-        res: "256x256",
-        label: "256x256",
+        res: "LOW",
+        label: "LOW",
     },
     {
-        res: "512x512",
-        label: "512x512",
+        res: "MID",
+        label: "MID",
     },
     {
-        res: "1024x1024",
-        label: "1024x1024",
+        res: "HIGH",
+        label: "HIGH",
     }
 ];

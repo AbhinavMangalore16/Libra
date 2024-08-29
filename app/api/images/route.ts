@@ -1,0 +1,44 @@
+import { auth } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
+
+
+export async function POST(req:Request){
+    try{
+        const { userId } = auth();
+        if (!userId){
+            return new NextResponse("Unauthorized!", {status: 401});
+        }
+        const apiKey = process.env.RENGOKU_TOKEN;
+        if (!apiKey){
+            throw new Error("RENGOKU_TOKEN not set");
+        }
+        const {prompt, amount, resolution} = await req.json();
+        const response = await fetch('https"//api.limewire.com/api/image/generation',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-Api-Version':'v1',
+                Accept: 'application/json',
+                Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                prompt, 
+                samples: parseInt(amount, 10),
+                quality: resolution,
+                guidance_scale: 50,
+                aspect_ratio:'1:1',
+                style: 'PHOTOREALISTIC'
+            }),
+        });
+        if (!response.ok){
+            throw new Error(`Error generating image: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const imageURLs = data.map((img: {url: string})=>img.url);
+        return NextResponse.json(imageURLs);
+    } catch (error){
+        console.error('Error generating image:', error);
+        return NextResponse.json({error: error.message}, {status:500});
+    }
+}
