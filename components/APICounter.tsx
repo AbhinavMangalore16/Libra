@@ -26,21 +26,27 @@ export const APICounter = ({ apiLimitCount = 0 }: APICounterProps) => {
         <CardContent className="py-8 px-6">
           <div className="text-center text-white mb-6">
             <h3 className="text-lg font-semibold">API Usage</h3>
-            <p className="text-sm text-gray-300">{apiLimitCount} out of {MAX_FREE_LIMIT} requests used</p>
+            <p className="text-sm text-gray-300">
+              {apiLimitCount} out of {MAX_FREE_LIMIT} requests used
+            </p>
           </div>
           <div className="relative pt-1">
             <div className="overflow-hidden h-4 mb-4 text-xs flex rounded bg-gray-300/20">
               <div
                 style={{ width: `${percentageUsed}%` }}
-                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#FF9A8B] rounded"
+                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center rounded bg-gradient-to-r from-green-400 to-blue-500"
               ></div>
             </div>
           </div>
           <div className="text-center text-sm text-gray-300">
             {percentageUsed < 100 ? (
-              <p className="font-medium">You have {MAX_FREE_LIMIT - apiLimitCount} free requests left!</p>
+              <p className="font-medium">
+                You have {MAX_FREE_LIMIT - apiLimitCount} free requests left!
+              </p>
             ) : (
-              <p className="font-medium text-red-400">You have reached your free request limit!</p>
+              <p className="font-medium text-red-400">
+                You have reached your free request limit!
+              </p>
             )}
           </div>
         </CardContent>
