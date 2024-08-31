@@ -1,8 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-
-
 export async function POST(req:Request){
     try{
         const { userId } = auth();
@@ -14,7 +12,10 @@ export async function POST(req:Request){
             throw new Error("RENGOKU_TOKEN not set");
         }
         const {prompt, amount, resolution} = await req.json();
-        const response = await fetch('https"//api.limewire.com/api/image/generation',{
+        console.log(prompt);
+        console.log(amount);
+        console.log(resolution);
+        const response = await fetch('https://api.limewire.com/api/image/generation',{
             method: 'POST',
             headers:{
                 'Content-Type':'application/json',
@@ -35,10 +36,12 @@ export async function POST(req:Request){
             throw new Error(`Error generating image: ${response.statusText}`);
         }
         const data = await response.json();
-        const imageURLs = data.map((img: {url: string})=>img.url);
+        const imageURLs = data.map((img: { asset_url: string }) => img.asset_url);
         return NextResponse.json(imageURLs);
-    } catch (error){
-        console.error('Error generating image:', error);
-        return NextResponse.json({error: error.message}, {status:500});
+    } catch (error: unknown){
+        if (error instanceof Error) {
+            return new NextResponse(`Internal Error: ${error.message}`, { status: 500 });
+        }
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }

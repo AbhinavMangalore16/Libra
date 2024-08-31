@@ -7,7 +7,7 @@ export const formSchema = zod.object({
     amount: zod.enum(["1", "2", "3", "4", "5"], {
         errorMap: () => ({ message: "Please select a valid amount" }),
     }),
-    resolution: zod.enum(["256x256", "512x512", "1024x1024"], {
+    resolution: zod.enum(["LOW", "MID", "HIGH"], {
         errorMap: () => ({ message: "Please select a valid resolution" }),
     }),
 });

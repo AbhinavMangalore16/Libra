@@ -14,7 +14,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model USERAPILimit{
+model userAPILimit{
   id String @id @default(cuid())
   userId String @unique
   counter Int @default(0)
