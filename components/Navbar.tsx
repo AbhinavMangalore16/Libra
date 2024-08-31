@@ -6,6 +6,11 @@ import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { APICounter } from "./APICounter";
+
+interface NavbarProps{
+    apiLimitCount: number;
+}
 
 const routes = [
     {
@@ -54,7 +59,9 @@ const poppins = Poppins({
     subsets: ["latin"],
 });
 
-const Navbar = () => {
+const Navbar = ({
+    apiLimitCount = 0
+}: NavbarProps) => {
     const pathName = usePathname();
     return (
         <div className="flex flex-col h-full bg-[#1A1A2E] text-white space-y-4 py-4">
@@ -74,6 +81,7 @@ const Navbar = () => {
                     ))}
                 </div>
             </div>
+            <APICounter apiLimitCount = {apiLimitCount}/>
         </div>
     );
 }

@@ -1,1 +1,1 @@
-export const MAX_FREE_LIMIT = 10;
+export const MAX_FREE_LIMIT = 20;

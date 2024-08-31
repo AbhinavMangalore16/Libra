@@ -44,3 +44,17 @@ export const checkFreeExhaust = async () => {
         return false;
     }
 }
+
+export const getAPILimit = async () =>{
+    const { userId } = auth();
+    if (!userId){
+        return 0;
+    }
+    const userAPILimit = await prismadb.userAPILimit.findUnique({
+        where: { userId: userId }
+    });
+    if (!userAPILimit){
+        return 0;
+    }
+    return userAPILimit.counter;
+}
