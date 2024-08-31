@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { checkFreeExhaust, increaseAPILimit } from "@/lib/limits";
 
 export async function POST(req:Request){
     try{
@@ -12,9 +13,13 @@ export async function POST(req:Request){
             throw new Error("RENGOKU_TOKEN not set");
         }
         const {prompt, amount, resolution} = await req.json();
-        console.log(prompt);
-        console.log(amount);
-        console.log(resolution);
+        const isFree = await checkFreeExhaust();
+        if (!isFree) {
+          return new NextResponse(
+            "Free trial has ended! Please avail pro version to avail more!",
+            { status: 403 }
+          );
+        }
         const response = await fetch('https://api.limewire.com/api/image/generation',{
             method: 'POST',
             headers:{
@@ -37,6 +42,7 @@ export async function POST(req:Request){
         }
         const data = await response.json();
         const imageURLs = data.map((img: { asset_url: string }) => img.asset_url);
+        await increaseAPILimit();
         return NextResponse.json(imageURLs);
     } catch (error: unknown){
         if (error instanceof Error) {

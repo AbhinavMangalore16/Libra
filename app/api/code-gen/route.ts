@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { checkFreeExhaust, increaseAPILimit } from "@/lib/limits";
 
 interface SafetyRatingProp {
   category: string;
@@ -31,7 +32,14 @@ export async function POST(req: Request) {
     if (!prompt) {
       return new NextResponse("Prompt is required", { status: 400 });
     }
-
+    const isFree = await checkFreeExhaust();
+    if (!isFree) {
+      return new NextResponse(
+        "Free trial has ended! Please avail pro version to avail more!",
+        { status: 403 }
+      );
+    }
+    await increaseAPILimit();
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use Gemini 1.5 model
     const result = await model.generateContent(customPrefixPrompt+ prompt);
     const response = await result.response;
