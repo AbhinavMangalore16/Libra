@@ -135,9 +135,10 @@ const CodeGen: React.FC = () => {
               render={({ field }) => (
                 <FormItem className="col-span-12 lg:col-span-10">
                   <FormControl className="m-0 p-0">
-                    <Input
+                    {/* Replacing Input with Textarea for multiline and scrollable input */}
+                    <textarea
                       {...field}
-                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent resize-none h-40 w-full overflow-auto p-2 rounded-lg"
                       placeholder={placeholder}
                       disabled={loading}
                       onFocus={() => setIsFocused(true)}
@@ -163,7 +164,7 @@ const CodeGen: React.FC = () => {
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
-        {loading && <Loading color="#6c9cfc"/>}
+        {loading && <Loading color="#6c9cfc" />}
         {messages.length === 0 && !loading && (
           <NothingWhatSoEver label="Nothing in here! No conversation initiated." normalImageSrc="/code-typing.png" hoverImageSrc="/qr-code-easter-egg.png" />
         )}

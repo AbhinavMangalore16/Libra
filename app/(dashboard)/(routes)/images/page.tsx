@@ -1,74 +1,123 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as zod from "zod";
 import Heading from "@/components/Heading";
-import { Mic, Volume2 } from "lucide-react";
+import { Code, Image } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { amtOptions, formSchema, resOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/UserAvatar";
+import { AssistantAvatar } from "@/components/AssistantAvatar";
+import Markdown from "react-markdown";
+import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const formSchema = zod.object({
-  text: zod.string().min(1, "Text is required"),
-  audio: zod.any().optional(),
-});
-
-const SpeechService: React.FC = () => {
+const ImageGen: React.FC = () => {
   const router = useRouter();
-  const [result, setResult] = useState<string | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      text: "",
-      audio: null,
+      prompt: "",
+      amount: "1",
+      resolution: "LOW",
     },
   });
 
   const loading = form.formState.isSubmitting;
-
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
     try {
-      setResult(null);
-
-      // Convert text to speech
-      if (values.text) {
-        const response = await axios.post("/api/text-to-speech", {
-          text: values.text,
-        });
-        const audioURL = response.data; // Assume the API returns a URL to the generated audio
-        setResult(audioURL);
-      } 
-      // Convert speech to text
-      else if (values.audio) {
-        const formData = new FormData();
-        formData.append("audio", values.audio[0]);
-        const response = await axios.post("/api/speech-to-text", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        const textResult = response.data; // Assume the API returns the text result
-        setResult(textResult);
-      }
-
+      setImages([]);
+      const response = await axios.post("/api/images", values);
+      const URLs = response.data.map((img: { url: string }) => img.url);
+      setImages(URLs);
       form.reset();
     } catch (error: any) {
-      console.error("Error processing request:", error);
+      console.error("Error generating response:", error);
     } finally {
       router.refresh();
     }
   };
 
+  const examplePrompts = [
+    "Generate an image of a futuristic city skyline at sunset.",
+    "Create an illustration of a magical forest with glowing plants and mystical creatures.",
+    "Design a vibrant abstract pattern with geometric shapes and bold colors.",
+    "Generate a detailed image of a cozy cabin in the mountains during winter.",
+    "Create a realistic portrait of a person with a serene expression.",
+    "Design an image of a bustling market street in a historic town.",
+    "Generate an image of a serene beach with clear blue water and palm trees.",
+    "Create an artistic representation of a space scene with planets and stars.",
+    "Design an image of a classic car parked in front of a vintage diner.",
+    "Generate a fantasy landscape with floating islands and a magical waterfall.",
+  ];
+
+  const [placeholder, setPlaceholder] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (isFocused) {
+      setPlaceholder(""); // Clear the placeholder when input is focused
+      return;
+    }
+
+    const handleType = () => {
+      const i = loopNum % examplePrompts.length;
+      const fullText = examplePrompts[i];
+
+      setPlaceholder(
+        isDeleting
+          ? fullText.substring(0, placeholder.length - 1)
+          : fullText.substring(0, placeholder.length + 1)
+      );
+
+      setTypingSpeed(isDeleting ? 50 : 100);
+
+      if (!isDeleting && placeholder === fullText) {
+        setTimeout(() => setIsDeleting(true), 1000);
+      } else if (isDeleting && placeholder === "") {
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+      }
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [
+    placeholder,
+    isDeleting,
+    loopNum,
+    typingSpeed,
+    examplePrompts,
+    isFocused,
+  ]);
+
   return (
     <div>
       <Heading
-        title="Speech to Text & Text to Speech"
-        description="Convert speech to text or generate speech from text using AI-powered APIs."
-        icon={Mic}
+        title="Image Generator"
+        description="Harness the power of Gemini AI to effortlessly create and customize images"
+        icon={Image}
         iconColor="text-[#7C4DFF]"
         backgroundColor="bg-[#7C4DFF]/10"
         textColor="text-[#333]"
@@ -80,69 +129,105 @@ const SpeechService: React.FC = () => {
             className="rounded-lg border w-full p-4 px-2 md:px-4 focus-within:shadow-sm grid grid-cols-12 gap-2"
           >
             <FormField
-              name="text"
+              name="prompt"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-8">
+                <FormItem className="col-span-12 lg:col-span-5">
                   <FormControl className="m-0 p-0">
                     <Input
                       {...field}
                       className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                      placeholder="Enter text for TTS or upload audio for STT..."
+                      placeholder={placeholder}
                       disabled={loading}
+                      onFocus={() => setIsFocused(true)}
+                      onBlur={() => {
+                        setIsFocused(false);
+                        // Restart typing effect if needed
+                        setPlaceholder(
+                          examplePrompts[loopNum % examplePrompts.length]
+                        );
+                      }}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
             <FormField
-              name="audio"
               control={form.control}
+              name="amount"
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-8">
-                  <FormControl className="m-0 p-0">
-                    <Input
-                      type="file"
-                      accept="audio/*"
-                      onChange={(e) => field.onChange(e.target.files)}
-                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                      disabled={loading}
-                    />
-                  </FormControl>
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {amtOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="resolution"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {resOptions.map((option) => (
+                        <SelectItem key={option.res} value={option.res}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
             <Button
               className="col-span-12 lg:col-span-2 w-full bg-[#7C4DFF]"
               disabled={loading}
             >
-              {loading ? "Processing..." : "Submit"}
+              {loading ? "Generating..." : "Generate"}
             </Button>
           </form>
         </Form>
       </div>
       <div className="px-4 lg:px-8 mt-6">
         {loading && <Loading color="#6c9cfc" />}
-        {result === null && !loading && (
+        {images.length === 0 && !loading && (
           <Nothing
-            label="No result available"
-            imageSrc="/audio-icon.png"
+            label="No images generated"
+            imageSrc="/code-typing.png"
           />
         )}
-        {result && (
-          <div className="mt-4">
-            {typeof result === "string" ? (
-              <audio controls src={result} className="w-full">
-                Your browser does not support the audio element.
-              </audio>
-            ) : (
-              <p className="text-lg">{result}</p>
-            )}
-          </div>
-        )}
+        <div>Images rendered here</div>
       </div>
     </div>
   );
 };
 
-export default SpeechService;
+export default ImageGen;
