@@ -3,7 +3,7 @@
 import { usePremium } from "@/hooks/use-premium";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
-import { Check, Code, Images, MessageCircleMore, Music, Sparkle, Video } from "lucide-react";
+import { Check, Code, Images, MessageCircleMore, Music, Sparkles, Video } from "lucide-react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
@@ -52,41 +52,36 @@ const features = [
 ];
 
 export const PremiumModal = () => {
-  const premiumModal = usePremium();
+  const { open, onOpen, onClose } = usePremium();
+
   return (
-    <Dialog open={premiumModal.open} onOpenChange={premiumModal.onOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => (isOpen ? onOpen() : onClose())}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex flex-col justify-center items-center gap-y-4 pb-4">
             <div className="flex items-center font-bold gap-x-2">
               Upgrade to LibraAI
-              <Badge variant="pro">
-                Pro
-              </Badge>
+              <Badge variant="pro">Pro</Badge>
             </div>
           </DialogTitle>
           <DialogDescription className="text-center pt-2 text-slate-700 font-medium">
-            {features.map((feature)=>(
-              <Card
-              key = {feature.label}
-              className="flex items-center justify-between p-2 border-black/5"
-              >
+            {features.map((feature) => (
+              <Card key={feature.label} className="flex items-center justify-between p-2 border-black/5">
                 <div className="flex items-center gap-x-4">
-                  <div className={cn("p-2 w-fit rounded-md")}>
-                    <feature.icon className={cn("w-6 h-6", feature.color)}/>
+                  <div className={cn("p-2 w-fit rounded-md", feature.bgcolor)}>
+                    <feature.icon className={cn("w-6 h-6", feature.color)} />
                   </div>
-                  <div className="font-semibold text-md">
-                    {feature.label}
-                  </div>
+                  <div className="font-semibold text-md">{feature.label}</div>
                 </div>
-                <Check className="text-primary w-4"/>
+                <Check className="text-primary w-4" />
               </Card>
             ))}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button>
+          <Button onClick={onClose} className="w-full" size="sm" variant="pro">
             Upgrade
+            <Sparkles className="w-4 h-4 ml-2 fill-white" />
           </Button>
         </DialogFooter>
       </DialogContent>

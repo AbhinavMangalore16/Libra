@@ -6,7 +6,7 @@ interface usePremiumStore{
 }
 
 export const usePremium = create<usePremiumStore>((set)=> ({
-    open: true,
+    open: false,
     onOpen: () => set({open: true}),
     onClose: () => set({ open: false})
 }));

@@ -15,8 +15,10 @@ import { useRouter } from "next/navigation";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
+import { usePremium } from "@/hooks/use-premium";
 
 const MusicGen: React.FC = () => {
+  const premium = usePremium();
   const router = useRouter();
   const [music, setMusic] = useState<string>();
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -34,6 +36,9 @@ const MusicGen: React.FC = () => {
       setMusic(response.data.audio);
       form.reset();
     } catch (error: any) {
+      if (error?.response?.status === 403){
+        premium.onOpen();
+      }
       console.error("Error generating response:", error);
     } finally {
       router.refresh();

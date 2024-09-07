@@ -20,8 +20,10 @@ import { UserAvatar } from "@/components/UserAvatar";
 import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
+import { usePremium } from "@/hooks/use-premium";
 
 const CodeGen: React.FC = () => {
+  const premium = usePremium();
   const router = useRouter();
   const [messages, setMessages] = useState<
     { role: "system" | "user" | "assistant"; content: string }[]
@@ -50,6 +52,9 @@ const CodeGen: React.FC = () => {
       setMessages((current: any) => [...current, userMsg, botMsg]);
       form.reset();
     } catch (error: any) {
+      if (error?.response?.status === 403){
+        premium.onOpen();
+      }
       console.error("Error generating response:", error);
     } finally {
       router.refresh();

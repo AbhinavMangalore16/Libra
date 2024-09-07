@@ -19,8 +19,10 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
+import { usePremium } from "@/hooks/use-premium";
 
 const ChatBot: React.FC = () => {
+  const premium = usePremium();
   const router = useRouter();
   const [messages, setMessages] = useState<
     { role: "system" | "user" | "assistant"; content: string }[]
@@ -49,7 +51,9 @@ const ChatBot: React.FC = () => {
       setMessages((current: any) => [...current, userMsg, botMsg]);
       form.reset();
     } catch (error: any) {
-      console.error("Error generating response:", error);
+      if (error?.response?.status===403){
+        premium.onOpen();
+      }
     } finally {
       router.refresh();
     }

@@ -4,12 +4,14 @@ import { Card, CardContent } from "./ui/card";
 import { MAX_FREE_LIMIT } from "@/constants";
 import { Button } from "./ui/button";
 import { Sparkles } from "lucide-react";
+import { usePremium } from "@/hooks/use-premium";
 
 interface APICounterProps {
   apiLimitCount: number;
 }
 
 export const APICounter = ({ apiLimitCount = 0 }: APICounterProps) => {
+  const premium = usePremium();
   const [mount, setMount] = useState(false);
   useEffect(() => {
     setMount(true);
@@ -51,7 +53,7 @@ export const APICounter = ({ apiLimitCount = 0 }: APICounterProps) => {
               </p>
             )}
           </div>
-          <Button className="w-full h-8 text-xs py-1" variant="pro">
+          <Button className="w-full h-8 text-xs py-1" variant="pro" onClick={premium.onOpen}>
             Upgrade to LibraPro
             <Sparkles className="w-3 h-3 ml-1 fill-white"/>
           </Button>

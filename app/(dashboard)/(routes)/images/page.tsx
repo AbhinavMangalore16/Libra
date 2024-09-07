@@ -27,8 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePremium } from "@/hooks/use-premium";
 
 const ImageGen: React.FC = () => {
+  const premium = usePremium();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -49,6 +51,9 @@ const ImageGen: React.FC = () => {
       setImages(URLs);
       form.reset();
     } catch (error: any) {
+      if (error?.response?.status === 403){
+        premium.onOpen();
+      }
       console.error("Error generating response:", error);
     } finally {
       router.refresh();
@@ -224,7 +229,7 @@ const ImageGen: React.FC = () => {
             imageSrc="/code-typing.png"
           />
         )}
-        <div>Images rendered here</div>
+        {/* <div className="flex flex-col justify-center items-center">Images rendered here</div> */}
       </div>
     </div>
   );
