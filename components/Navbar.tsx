@@ -60,7 +60,7 @@ const poppins = Poppins({
 });
 
 const Navbar = ({
-    apiLimitCount = 0
+    apiLimitCount
 }: NavbarProps) => {
     const pathName = usePathname();
     return (

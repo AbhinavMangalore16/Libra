@@ -6,7 +6,13 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
 
-const MobileNavbar = () => {
+interface MobileNavbarProps{
+  apiLimitCount: number;
+}
+
+const MobileNavbar = ({
+  apiLimitCount
+}: MobileNavbarProps) => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() =>{
     setIsMounted(true);
@@ -22,7 +28,7 @@ const MobileNavbar = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
-        <Navbar/>
+        <Navbar apiLimitCount={apiLimitCount}/>
       </SheetContent>
     </Sheet>
   );

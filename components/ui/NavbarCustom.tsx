@@ -1,10 +1,12 @@
 import { UserButton } from "@clerk/nextjs";
 import MobileNavbar from "../MobileNavbar";
+import { getAPILimit } from "@/lib/limits";
 
-const NavbarCustom = () => {
+const NavbarCustom = async () => {
+  const apiLimitCount = await getAPILimit();
   return (
     <div className="flex items-center p-4">
-        <MobileNavbar/>
+        <MobileNavbar apiLimitCount = {apiLimitCount}/>
       <div className="flex w-full justify-end">
         <UserButton />
       </div>
