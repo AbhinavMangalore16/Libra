@@ -10,7 +10,7 @@ const DashboardLayout = async({
     const APILimit = await getAPILimit();
     return(
     <div className="h-full relative">
-        <div className="hidden md:flex md:flex-col md:fixed w-72 inset-y-0 z-[60] bg-[#1A1A2E]">
+        <div className="hidden md:flex md:flex-col md:fixed w-72 inset-y-0 bg-[#1A1A2E]">
             <div>
                 <Navbar apiLimitCount = {APILimit}/>
             </div>

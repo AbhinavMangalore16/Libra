@@ -116,7 +116,7 @@ const ImageGen: React.FC = () => {
     <div>
       <Heading
         title="Image Generator"
-        description="Harness the power of Gemini AI to effortlessly create and customize images"
+        description="Harness the power of AI models to effortlessly create and customize images"
         icon={Image}
         iconColor="text-[#7C4DFF]"
         backgroundColor="bg-[#7C4DFF]/10"
