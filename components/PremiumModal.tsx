@@ -3,7 +3,7 @@
 import { usePremium } from "@/hooks/use-premium";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
-import { Check, Code, Images, MessageCircleMore, Music, Sparkles, Video } from "lucide-react";
+import { Check, Code, FileText, Images, MessageCircleMore, Music, Sparkles, Video } from "lucide-react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
@@ -49,6 +49,12 @@ const features = [
     href: "/music",
     description: "Compose beautiful music using AI algorithms."
   },
+  {
+    label: "PDF Chatbot",
+    icon: FileText,
+    href: "/pdf-chatbot",
+    color: "text-[#E4B1F0]"
+},
 ];
 
 export const PremiumModal = () => {
