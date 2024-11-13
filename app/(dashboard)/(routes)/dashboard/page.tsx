@@ -53,7 +53,6 @@ const features = [
     href: "/music",
     description: "Compose beautiful music using AI algorithms."
   },
-  
 ];
 
 const DashboardArea = () => {

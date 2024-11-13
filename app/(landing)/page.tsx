@@ -13,25 +13,29 @@ const poppins = Poppins({
 });
 
 const HeroSection = () => {
-  const [isDark, setIsDark] = useState(true);
-  const toggleTheme = () => setIsDark(!isDark);
-
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center ${isDark ? "bg-black text-white" : "bg-white text-black"} relative overflow-hidden`}>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
         <motion.div
-          className="absolute rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 opacity-50 blur-2xl"
-          initial={{ scale: 0.5, opacity: 0.5 }}
-          animate={{ scale: 1.5, opacity: 0.8 }}
-          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-          style={{ width: "400px", height: "400px", left: "10%", top: "20%" }}
+          className="absolute rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 opacity-60 blur-3xl"
+          initial={{ scale: 0.5, opacity: 0.4 }}
+          animate={{ scale: 1.7, opacity: 0.8, rotate: 360 }}
+          transition={{ duration: 10, repeat: Infinity, repeatType: "loop", ease: "linear" }}
+          style={{ width: "500px", height: "500px", left: "15%", top: "20%" }}
         />
         <motion.div
-          className="absolute rounded-full bg-gradient-to-br from-teal-500 to-blue-600 opacity-50 blur-2xl"
-          initial={{ scale: 0.5, opacity: 0.5 }}
-          animate={{ scale: 1.2, opacity: 0.8 }}
-          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-          style={{ width: "300px", height: "300px", right: "10%", bottom: "15%" }}
+          className="absolute rounded-full bg-gradient-to-br from-teal-500 to-blue-600 opacity-50 blur-3xl"
+          initial={{ scale: 0.5, opacity: 0.4 }}
+          animate={{ scale: 1.3, opacity: 0.7, rotate: -360 }}
+          transition={{ duration: 8, repeat: Infinity, repeatType: "loop", ease: "linear" }}
+          style={{ width: "400px", height: "400px", right: "15%", bottom: "20%" }}
+        />
+        <motion.div
+          className="absolute rounded-full bg-gradient-to-br from-purple-400 to-blue-400 opacity-30 blur-3xl"
+          initial={{ scale: 0.4, opacity: 0.2 }}
+          animate={{ scale: 1.8, opacity: 0.5, rotate: 180 }}
+          transition={{ duration: 12, repeat: Infinity, repeatType: "loop", ease: "linear" }}
+          style={{ width: "600px", height: "600px", left: "50%", top: "40%", transform: "translateX(-50%)" }}
         />
       </div>
 
@@ -79,16 +83,6 @@ const HeroSection = () => {
             </motion.button>
           </Link>
         </div>
-      </div>
-
-      <div className="absolute top-5 right-5">
-        <motion.button
-          className={`px-3 py-2 rounded-full ${isDark ? "bg-gray-800" : "bg-gray-200"} transition-all`}
-          onClick={toggleTheme}
-          whileHover={{ scale: 1.1 }}
-        >
-          {isDark ? "🌙" : "☀️"}
-        </motion.button>
       </div>
     </div>
   );
