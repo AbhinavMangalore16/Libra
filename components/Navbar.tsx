@@ -52,12 +52,12 @@ const routes = [
         href: "/pdf-chatbot",
         color: "text-[#E4B1F0]"
     },
-    {
-        label: "Settings",
-        icon: Settings,
-        href: "/",
-        color: "text-[#808080]"
-    }
+    // {
+    //     label: "Settings",
+    //     icon: Settings,
+    //     href: "/dashboard",
+    //     color: "text-[#808080]"
+    // }
 ];
 
 const poppins = Poppins({
