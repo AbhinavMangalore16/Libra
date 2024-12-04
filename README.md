@@ -1,11 +1,8 @@
 # Libra
 
-**Subtitle:** Libra is an Innovative AI/ML web application that can chat, generate images, videos, codes, and music. It also contains a RAG PDF Question Answering System.
-
----
 
 ## Overview
-Libra is a powerful AI/ML-powered web application designed to revolutionize your creativity and productivity. With features like a chatbot, code generator, image and video generation, and a PDF-based Q&A system, Libra offers tools to assist users in various domains, leveraging cutting-edge AI capabilities.
+Libra is a powerful AI/ML-powered web application designed to revolutionize your creativity and productivity. With features like a chatbot, code generator, image and video generation, and a PDF-based Q&A RAG system, Libra offers tools to assist users in various domains, leveraging cutting-edge AI capabilities.
 
 ---
 
