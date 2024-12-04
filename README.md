@@ -1,6 +1,5 @@
 # Libra
 
-**Subtitle:** Libra is an Innovative AI/ML web application that can chat, generate images, videos, codes, and music. It also contains a RAG PDF Question Answering System.
 
 ---
 
@@ -28,7 +27,7 @@ To run the project locally:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/libra.git
+   git clone https://github.com/AbhinavMangalore16/libra.git
    cd libra
    ```
 
