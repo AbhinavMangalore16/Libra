@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Libra
+
+**Subtitle:** Libra is an Innovative AI/ML web application that can chat, generate images, videos, codes, and music. It also contains a RAG PDF Question Answering System.
+
+---
+
+## Overview
+Libra is a powerful AI/ML-powered web application designed to revolutionize your creativity and productivity. With features like a chatbot, code generator, image and video generation, and a PDF-based Q&A system, Libra offers tools to assist users in various domains, leveraging cutting-edge AI capabilities.
+
+---
+
+## Features
+- **Chatbot**: Engage in intelligent, natural conversations powered by advanced NLP models.
+- **Code Generator**: Generate efficient code snippets seamlessly for your projects.
+- **Image Generator**: Create stunning AI-generated visuals (coming soon!).
+- **Video Generator**: Generate captivating AI-powered videos (work in progress!).
+- **Music Generator**: Compose beautiful AI-assisted music (coming soon!).
+- **PDF Chatbot**: Ask questions about uploaded PDFs for instant insights (work in progress!).
+
+---
 
 ## Getting Started
 
-First, run the development server:
+To run the project locally:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/libra.git
+   cd libra
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Set up environment variables**
+   This project requires a `.env` file containing sensitive environment variables. To obtain the `.env` file, contact the author **Abhinav Mangalore** at [abhinavm16104@gmail.com](mailto:abhinavm16104@gmail.com). Place the `.env` file in the root directory.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+---
+
+## Running with Docker
+
+To run the application using Docker, follow these steps:
+
+1. **Obtain the `.env` File**
+   This project requires a `.env` file for environment-specific configurations. **The `.env` file is not included in the repository**. Contact the author to obtain it and place it in the root directory.
+
+2. **Build the Docker Image**
+   ```bash
+   docker build -t libra-app .
+   ```
+
+3. **Run the Docker Container**
+   Use the following command to run the application:
+   ```bash
+   docker run --rm -it --env-file .env -p 3000:3000 libra-app
+   ```
+   - **`--rm`**: Automatically removes the container after it stops.
+   - **`-it`**: Runs the container interactively.
+   - **`--env-file .env`**: Loads environment variables from the `.env` file.
+   - **`-p 3000:3000`**: Maps port 3000 of the container to port 3000 on the host.
+
+4. **Access the Application**
+   Open [http://localhost:3000](http://localhost:3000) in your browser to interact with Libra.
+
+---
+
+## Deployment
+The easiest way to deploy Libra is via the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme). For details, check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment).
+
+---
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/docs): Learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn): Interactive tutorials for Next.js.
+- [Framer Motion](https://www.framer.com/motion/): Powering Libra’s animations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Author
+**Abhinav Mangalore**
+- [Twitter](https://x.com/PhoenixRFTA16)
+- [Facebook](https://www.facebook.com/profile.php?id=100008360348028)
+- [LinkedIn](https://www.linkedin.com/in/abhinav-mangalore-919b0a193/)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
+This project is licensed under the [MIT License](LICENSE).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+## Disclaimer
+The `.env` file contains sensitive credentials and configurations. Ensure it is kept secure and shared only with authorized individuals.
+
+---
+
+Thank you for using Libra! Your feedback and contributions are welcome.
+
