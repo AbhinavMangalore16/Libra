@@ -98,7 +98,7 @@ const FeatureSection = () => {
       bgcolor: "bg-[#38B2AC]/10",
       href: "/chatbot",
       description: "Engage in intelligent conversations with our AI chatbot.",
-      status: "Available"
+      status: "Available",
     },
     {
       label: "Code Generator",
@@ -106,8 +106,8 @@ const FeatureSection = () => {
       color: "text-[#6c9cfc]",
       bgcolor: "bg-[#6c9cfc]/10",
       href: "/code-gen",
-      description: "Generate code snippets effortlessly with our AI.",
-      status: "Available"
+      description: "Generate code snippets effortlessly with our AI!",
+      status: "Available",
     },
     {
       label: "Image Generator",
@@ -116,7 +116,8 @@ const FeatureSection = () => {
       bgcolor: "bg-[#7C4DFF]/10",
       href: "/images",
       description: "Create stunning images using AI technology.",
-      status: "Coming Soon"
+      status: "Coming Soon",
+      extra: "This feature is under development and will be available soon!",
     },
     {
       label: "Video Generator",
@@ -125,7 +126,8 @@ const FeatureSection = () => {
       bgcolor: "bg-[#4CAF50]/10",
       href: "/video",
       description: "Generate captivating videos with AI assistance.",
-      status: "Work in Progress"
+      status: "Work in Progress",
+      extra: "We are actively working to bring this feature to you!",
     },
     {
       label: "Music Generator",
@@ -134,7 +136,8 @@ const FeatureSection = () => {
       bgcolor: "bg-[#F4511E]/10",
       href: "/music",
       description: "Compose beautiful music using AI algorithms.",
-      status: "Coming Soon"
+      status: "Coming Soon",
+      extra: "Stay tuned! This exciting feature is coming soon!",
     },
     {
       label: "PDF Chatbot",
@@ -143,7 +146,8 @@ const FeatureSection = () => {
       bgcolor: "bg-[#E4B1F0]/10",
       href: "/pdf-chatbot",
       description: "Ask questions about your uploaded PDFs.",
-      status: "Work in Progress"
+      status: "Work in Progress",
+      extra: "Currently under development. Check back soon!",
     },
   ];
 
@@ -172,7 +176,10 @@ const FeatureSection = () => {
               </div>
               <h3 className="text-xl font-semibold mb-4">{feature.label}</h3>
               <p>{feature.description}</p>
-              
+              {/* Additional notice for features under development */}
+              {feature.extra && (
+                <p className="mt-2 text-sm text-gray-400">{feature.extra}</p>
+              )}
               {/* Conditional tooltip display for "Coming Soon" or "Work in Progress" */}
               {feature.status !== "Available" && (
                 <motion.div
