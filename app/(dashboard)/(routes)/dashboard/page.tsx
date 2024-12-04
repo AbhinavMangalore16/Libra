@@ -19,7 +19,7 @@ const features = [
     color: "text-[#38B2AC]",
     bgcolor: "bg-[#38B2AC]/10",
     href: "/chatbot",
-    description: "Engage in intelligent conversations with our AI chatbot."
+    description: "Chat with your own AI assistant - your own J.A.R.V.I.S you might say.."
   },
   {
     label: "Code Generator",

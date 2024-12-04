@@ -16,6 +16,7 @@ const HeroSection = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+        {/* Animated background orbs */}
         <motion.div
           className="absolute rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 opacity-60 blur-3xl"
           initial={{ scale: 0.5, opacity: 0.4 }}
@@ -30,16 +31,10 @@ const HeroSection = () => {
           transition={{ duration: 8, repeat: Infinity, repeatType: "loop", ease: "linear" }}
           style={{ width: "400px", height: "400px", right: "15%", bottom: "20%" }}
         />
-        <motion.div
-          className="absolute rounded-full bg-gradient-to-br from-purple-400 to-blue-400 opacity-30 blur-3xl"
-          initial={{ scale: 0.4, opacity: 0.2 }}
-          animate={{ scale: 1.8, opacity: 0.5, rotate: 180 }}
-          transition={{ duration: 12, repeat: Infinity, repeatType: "loop", ease: "linear" }}
-          style={{ width: "600px", height: "600px", left: "50%", top: "40%", transform: "translateX(-50%)" }}
-        />
       </div>
 
       <div className="z-10 text-center">
+        {/* Main title and subtitle animations */}
         <motion.h1
           className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-600"
           initial={{ opacity: 0, y: -50 }}
@@ -65,7 +60,13 @@ const HeroSection = () => {
           Unlock the power of artificial intelligence to elevate your work to new heights.
         </motion.p>
 
-        <div className="flex justify-center mt-8">
+        {/* Button animation with delay */}
+        <motion.div
+          className="flex justify-center mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+        >
           <Link href="/sign-in">
             <motion.button
               className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-500 text-white rounded-lg hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all"
@@ -82,7 +83,7 @@ const HeroSection = () => {
               Sign Up
             </motion.button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -96,7 +97,8 @@ const FeatureSection = () => {
       color: "text-[#38B2AC]",
       bgcolor: "bg-[#38B2AC]/10",
       href: "/chatbot",
-      description: "Engage in intelligent conversations with our AI chatbot."
+      description: "Engage in intelligent conversations with our AI chatbot.",
+      status: "Available"
     },
     {
       label: "Code Generator",
@@ -104,7 +106,8 @@ const FeatureSection = () => {
       color: "text-[#6c9cfc]",
       bgcolor: "bg-[#6c9cfc]/10",
       href: "/code-gen",
-      description: "Generate code snippets effortlessly with our AI."
+      description: "Generate code snippets effortlessly with our AI.",
+      status: "Available"
     },
     {
       label: "Image Generator",
@@ -112,7 +115,8 @@ const FeatureSection = () => {
       color: "text-[#7C4DFF]",
       bgcolor: "bg-[#7C4DFF]/10",
       href: "/images",
-      description: "Create stunning images using AI technology."
+      description: "Create stunning images using AI technology.",
+      status: "Coming Soon"
     },
     {
       label: "Video Generator",
@@ -120,7 +124,8 @@ const FeatureSection = () => {
       color: "text-[#4CAF50]",
       bgcolor: "bg-[#4CAF50]/10",
       href: "/video",
-      description: "Generate captivating videos with AI assistance."
+      description: "Generate captivating videos with AI assistance.",
+      status: "Work in Progress"
     },
     {
       label: "Music Generator",
@@ -128,15 +133,17 @@ const FeatureSection = () => {
       color: "text-[#F4511E]",
       bgcolor: "bg-[#F4511E]/10",
       href: "/music",
-      description: "Compose beautiful music using AI algorithms."
+      description: "Compose beautiful music using AI algorithms.",
+      status: "Coming Soon"
     },
     {
       label: "PDF Chatbot",
       icon: FileText,
-      href: "/pdf-chatbot",
       color: "text-[#E4B1F0]",
       bgcolor: "bg-[#E4B1F0]/10",
-      description: "Ask questions about your uploaded PDFs."
+      href: "/pdf-chatbot",
+      description: "Ask questions about your uploaded PDFs.",
+      status: "Work in Progress"
     },
   ];
 
@@ -154,7 +161,7 @@ const FeatureSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
-              className="p-6 bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all"
+              className="relative p-6 bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all"
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -165,6 +172,17 @@ const FeatureSection = () => {
               </div>
               <h3 className="text-xl font-semibold mb-4">{feature.label}</h3>
               <p>{feature.description}</p>
+              
+              {/* Conditional tooltip display for "Coming Soon" or "Work in Progress" */}
+              {feature.status !== "Available" && (
+                <motion.div
+                  className="absolute top-2 right-2 px-2 py-1 bg-gray-700 text-xs rounded-lg text-gray-300"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  {feature.status}
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </div>
@@ -179,7 +197,7 @@ const FAQs = () => {
   const faqs = [
     {
       question: "What is Libra?",
-      answer: "Libra is an AI-powered platform that helps you unlock your creativity."
+      answer: "Libra is an AI-powered platform that essentially acts as your assistant"
     },
     {
       question: "How does the AI chatbot work?",
@@ -201,24 +219,21 @@ const FAQs = () => {
 
   return (
     <div className="py-12 bg-gray-800 text-white">
-      <div className="container mx-auto text-center">
-        <motion.h2
-          className="text-3xl font-bold mb-8"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Frequently Asked Questions
-        </motion.h2>
-        <div className="max-w-3xl mx-auto space-y-4">
+      <div className="container mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+        <div className="space-y-6">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              className="bg-gray-700 rounded-lg overflow-hidden"
-              onClick={() => toggleFAQ(index)}
-              whileHover={{ scale: 1.02 }}
+              className="bg-gray-700 rounded-lg"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <div className="flex justify-between items-center p-4 cursor-pointer">
+              <div
+                onClick={() => toggleFAQ(index)}
+                className="flex justify-between items-center p-4 cursor-pointer"
+              >
                 <h3 className="font-semibold">{faq.question}</h3>
                 <span>{openIndex === index ? "−" : "+"}</span>
               </div>
@@ -232,6 +247,7 @@ const FAQs = () => {
     </div>
   );
 };
+
 
 const LandingPage = () => {
   return (
