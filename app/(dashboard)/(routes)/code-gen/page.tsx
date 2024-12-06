@@ -121,7 +121,7 @@ const CodeGen: React.FC = () => {
   return (
     <div>
       <Heading
-        title="Code Generator"
+        title="CodeCraft - Code Generator"
         description="Your coding copilot to automate code generation across multiple languages and frameworks using our Gemini-powered AI."
         icon={Code}
         iconColor="text-[#6c9cfc]"

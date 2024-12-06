@@ -16,6 +16,8 @@ import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 import { usePremium } from "@/hooks/use-premium";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PDFChatbot: React.FC = () => {
   const premium = usePremium();
@@ -58,6 +60,18 @@ const PDFChatbot: React.FC = () => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         premium.onOpen();
+      }
+      else if (error?.response?.status === 500) {
+        toast.error("The feature is currently unavailable (for now). We are working on it! Please check back soon.",
+          {  position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            }
+        )
       }
       console.error("Error generating response:", error);
     } finally {
@@ -121,8 +135,9 @@ const PDFChatbot: React.FC = () => {
 
   return (
     <div>
+      <ToastContainer/>
       <Heading
-        title="PDF Chatbot"
+        title="AskPDF - PDF Chatbot"
         description="Interact with your PDF documents using an AI-powered chatbot. Get answers, summaries, and detailed insights from any PDF."
         icon={FileText}
         iconColor="text-[#E4B1F0]"

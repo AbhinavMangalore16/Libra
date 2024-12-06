@@ -26,31 +26,33 @@ const routes = [
         color: "text-[#38B2AC]",
     },
     {
-        label: "Code Generator",
+        label: "CodeKraft",
         icon: Code,
         href: "/code-gen",
         color: "text-[#6c9cfc]"
     },
     {
-        label: "Image Generator",
+        label: "AskPDF",
+        icon: FileText,
+        href: "/pdf-chatbot",
+        color: "text-[#E4B1F0]"
+    },
+    {
+        label: "Visionary",
         icon: Images,
         href: "/images",
         color: "text-[#7C4DFF]"
     }, {
-        label: "Video Generator",
+        label: "StoryForge",
         icon: Video,
         href: "/video",
         color: "text-[#4CAF50]"
-    }, {
-        label: "Music Generator",
+    }
+    ,{
+        label: "SoundWave",
         icon: Music,
         href: "/music",
         color: "text-[#F4511E]"
-    }, {
-        label: "PDF Chatbot",
-        icon: FileText,
-        href: "/pdf-chatbot",
-        color: "text-[#E4B1F0]"
     },
     // {
     //     label: "Settings",

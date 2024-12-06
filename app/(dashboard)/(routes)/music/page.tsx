@@ -16,6 +16,8 @@ import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 import { usePremium } from "@/hooks/use-premium";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MusicGen: React.FC = () => {
   const premium = usePremium();
@@ -38,6 +40,18 @@ const MusicGen: React.FC = () => {
     } catch (error: any) {
       if (error?.response?.status === 403){
         premium.onOpen();
+      }
+      else if (error?.response?.status === 500) {
+        toast.error("The feature is currently unavailable (for now). We are working on it! Please check back soon.",
+          {  position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            }
+        )
       }
       console.error("Error generating response:", error);
     } finally {
@@ -103,8 +117,9 @@ const MusicGen: React.FC = () => {
 
   return (
     <div>
+      <ToastContainer/>
       <Heading
-        title="Music Generator"
+        title="SoundWave - Music Generator"
         description="Generate original music tracks and melodies using Riffusion, tailored to your specific needs and genres."
         icon={Music}
         iconColor="text-[#F4511E]"

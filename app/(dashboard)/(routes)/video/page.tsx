@@ -21,6 +21,8 @@ import { AssistantAvatar } from "@/components/AssistantAvatar";
 import Markdown from "react-markdown";
 import { NothingWhatSoEver } from "@/components/NothingWhatSoEver";
 import { usePremium } from "@/hooks/use-premium";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VideoGen: React.FC = () => {
   const premium = usePremium();
@@ -43,6 +45,17 @@ const VideoGen: React.FC = () => {
     } catch (error: any) {
       if (error?.response?.status === 403){
         premium.onOpen();
+      }else if (error?.response?.status === 500) {
+        toast.error("The feature is currently unavailable (for now). We are working on it! Please check back soon.",
+          {  position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            }
+        )
       }
       console.error("Error generating response:", error);
     } finally {
@@ -109,8 +122,9 @@ const VideoGen: React.FC = () => {
 
   return (
     <div>
+      <ToastContainer/>
       <Heading
-        title="Video Generator"
+        title="StoryForge - Video Generator"
         description="Generate unique and engaging videos using our advanced AI technology to specific themes and styles,"
         icon={Video}
         iconColor="text-[#4CAF50]"

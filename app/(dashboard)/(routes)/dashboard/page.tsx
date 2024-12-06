@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   Code,
+  FileText,
   Images,
   MessageCircleMore,
   Music,
@@ -19,41 +20,50 @@ const features = [
     color: "text-[#38B2AC]",
     bgcolor: "bg-[#38B2AC]/10",
     href: "/chatbot",
-    description: "Chat with your own AI assistant - your own J.A.R.V.I.S you might say.."
+    description: "Have natural conversations with your personal AI assistant - like your own J.A.R.V.I.S, ready to help anytime."
   },
   {
-    label: "Code Generator",
+    label: "CodeKraft",
     icon: Code,
     color: "text-[#6c9cfc]",
     bgcolor: "bg-[#6c9cfc]/10",
     href: "/code-gen",
-    description: "Generate code snippets effortlessly with our AI."
+    description: "Effortlessly generate clean, working code snippets tailored to your needs with just a few clicks."
   },
   {
-    label: "Image Generator",
+    label: "AskPDF",
+    icon: FileText,
+    color: "text-[#E4B1F0]",
+    bgcolor: "bg-[#E4B1F0]/10",
+    href:"/pdf-chatbot",
+    description: "Upload a PDF and have a natural conversation with its contents. Perfect for quick answers and deeper insights."
+  },
+  {
+    label: "Visionary",
     icon: Images,
     color: "text-[#7C4DFF]",
     bgcolor: "bg-[#7C4DFF]/10",
     href: "/images",
-    description: "Create stunning images using AI technology."
+    description: "Bring your ideas to life by creating stunning, AI-generated images in seconds."
   },
   {
-    label: "Video Generator",
+    label: "StoryForge",
     icon: Video,
     color: "text-[#4CAF50]",
     bgcolor: "bg-[#4CAF50]/10",
     href: "/video",
-    description: "Generate captivating videos with AI assistance."
+    description: "Turn your vision into reality with AI-powered tools that create captivating videos effortlessly."
   },
   {
-    label: "Music Generator",
+    label: "SoundWave",
     icon: Music,
     color: "text-[#F4511E]",
     bgcolor: "bg-[#F4511E]/10",
     href: "/music",
-    description: "Compose beautiful music using AI algorithms."
-  },
+    description: "Compose unique and beautiful music pieces in minutes - no instruments or experience required."
+  }
 ];
+
 
 const DashboardArea = () => {
   const router = useRouter();

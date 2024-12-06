@@ -35,6 +35,7 @@ export async function POST(req: Request) {
         }
       }
     );
+    
     await increaseAPILimit();
     return NextResponse.json(response);
   } catch (error: unknown) {

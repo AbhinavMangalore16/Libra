@@ -40,12 +40,23 @@ export async function POST(req:Request){
         if (!response.ok){
             throw new Error(`Error generating image: ${response.statusText}`);
         }
+        if (response.status===500){
+            throw new Error(`FeatureUnavailable: The feature is currently unavailable: ${response.statusText}`)
+        }
         const data = await response.json();
         const imageURLs = data.map((img: { asset_url: string }) => img.asset_url);
         await increaseAPILimit();
         return NextResponse.json(imageURLs);
     } catch (error: unknown){
         if (error instanceof Error) {
+            if (error.message.includes("FeatureUnavailable")) {
+                console.log(error)
+                return new NextResponse(
+                    JSON.stringify({ error: "Feature is unavailable", code: 500 }),
+                    { status: 500 }
+                );
+                
+            }
             return new NextResponse(`Internal Error: ${error.message}`, { status: 500 });
         }
         return new NextResponse("Internal Error", { status: 500 });

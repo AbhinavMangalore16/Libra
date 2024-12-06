@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AssistantAvatar } from "@/components/AssistantAvatar";
@@ -51,10 +53,23 @@ const ImageGen: React.FC = () => {
       setImages(URLs);
       form.reset();
     } catch (error: any) {
-      if (error?.response?.status === 403){
+      if (error?.response?.status === 403) {
         premium.onOpen();
+      } else if (error?.response?.status === 500) {
+        toast.error("The feature is currently unavailable (for now). We are working on it! Please check back soon.",
+          {  position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            }
+        )
       }
-      console.error("Error generating response:", error);
+      else {
+        console.error("Error generating response:", error);
+      }
     } finally {
       router.refresh();
     }
@@ -119,8 +134,9 @@ const ImageGen: React.FC = () => {
 
   return (
     <div>
+      <ToastContainer/>
       <Heading
-        title="Image Generator"
+        title="Visionary - Image Generator"
         description="Harness the power of AI models to effortlessly create and customize images"
         icon={Image}
         iconColor="text-[#7C4DFF]"

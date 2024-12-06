@@ -12,11 +12,11 @@ Libra is a powerful AI/ML-powered web application designed to revolutionize your
 ## Features
 
 - **Chatbot**: Engage in intelligent, natural conversations powered by advanced NLP models. 🧠
-- **Code Generator**: Generate efficient code snippets seamlessly for your projects.
-- **Image Generator**: Create stunning AI-generated visuals *(coming soon)*. 🎨
-- **Video Generator**: Generate captivating AI-powered videos *(work in progress)*. 🎥
-- **Music Generator**: Compose beautiful AI-assisted music *(coming soon)*. 🎵
-- **PDF Chatbot**: Ask questions about uploaded PDFs for instant insights *(work in progress)*. 📄
+- **CodeKraftr**: Generate efficient code snippets seamlessly for your projects.
+- **Visionary**: Create stunning AI-generated visuals *(coming soon)*. 🎨
+- **StoryForge**: Generate captivating AI-powered videos *(work in progress)*. 🎥
+- **SoundWave**: Compose beautiful AI-assisted music *(coming soon)*. 🎵
+- **AskPDF**: Ask questions about uploaded PDFs for instant insights *(work in progress)*. 📄
 
 ---
 
@@ -123,4 +123,3 @@ The `.env` file contains sensitive credentials and configurations. Ensure it is 
 ---
 
 Thank you for using Libra! Your feedback and contributions are welcome.
-

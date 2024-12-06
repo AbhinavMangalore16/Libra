@@ -18,7 +18,7 @@ const features = [
     description: "Engage in intelligent conversations with our AI chatbot."
   },
   {
-    label: "Code Generator",
+    label: "CodeKraft",
     icon: Code,
     color: "text-[#6c9cfc]",
     bgcolor: "bg-[#6c9cfc]/10",
@@ -26,7 +26,13 @@ const features = [
     description: "Generate code snippets effortlessly with our AI."
   },
   {
-    label: "Image Generator",
+    label: "AskPDF",
+    icon: FileText,
+    href: "/pdf-chatbot",
+    color: "text-[#E4B1F0]"
+},
+  {
+    label: "Visionary",
     icon: Images,
     color: "text-[#7C4DFF]",
     bgcolor: "bg-[#7C4DFF]/10",
@@ -34,7 +40,7 @@ const features = [
     description: "Create stunning images using AI technology."
   },
   {
-    label: "Video Generator",
+    label: "StoryForge",
     icon: Video,
     color: "text-[#4CAF50]",
     bgcolor: "bg-[#4CAF50]/10",
@@ -42,19 +48,14 @@ const features = [
     description: "Generate captivating videos with AI assistance."
   },
   {
-    label: "Music Generator",
+    label: "SoundWave",
     icon: Music,
     color: "text-[#F4511E]",
     bgcolor: "bg-[#F4511E]/10",
     href: "/music",
     description: "Compose beautiful music using AI algorithms."
   },
-  {
-    label: "PDF Chatbot",
-    icon: FileText,
-    href: "/pdf-chatbot",
-    color: "text-[#E4B1F0]"
-},
+
 ];
 
 export const PremiumModal = () => {
