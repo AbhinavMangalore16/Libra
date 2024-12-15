@@ -1,0 +1,30 @@
+# dependencies (if not installed inside the container)
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# production build artifacts
+/out/
+.DS_Store
+
+# local environment and secrets
+.env
+.env*.local
+
+# debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# vercel deployment
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# prisma
+/node_modules/.prisma
