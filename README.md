@@ -12,7 +12,7 @@ Libra is a powerful AI/ML-powered web application designed to revolutionize your
 ## Features
 
 - **Chatbot**: Engage in intelligent, natural conversations powered by advanced NLP models. 🧠
-- **CodeKraftr**: Generate efficient code snippets seamlessly for your projects.
+- **CodeKraft**: Generate efficient code snippets seamlessly for your projects.
 - **Visionary**: Create stunning AI-generated visuals *(coming soon)*. 🎨
 - **StoryForge**: Generate captivating AI-powered videos *(work in progress)*. 🎥
 - **SoundWave**: Compose beautiful AI-assisted music *(coming soon)*. 🎵
