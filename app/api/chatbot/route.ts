@@ -3,11 +3,13 @@ import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { checkFreeExhaust, increaseAPILimit } from "@/lib/limits";
 
+const convoHist: Record<string, string[]> = {};
+
 interface SafetyRatingProp {
   category: string;
   probability: string;
 }
-// Ensure environment variable is properly loaded
+
 if (!process.env.GOOGLE_GENERATIVE_AI_KEY) {
   throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
 }
@@ -40,11 +42,23 @@ export async function POST(req: Request) {
         { status: 403 }
       );
     }
+    if (!convoHist[userId]) {
+      convoHist[userId] = [];
+    }
+    convoHist[userId].push(`User: ${prompt}`);
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Use Gemini 1.5 model
-    const result = await model.generateContent(prompt);
+    if (convoHist[userId].length > 40){
+      convoHist[userId].shift(); // user msg
+      convoHist[userId].shift(); // AI response
+    }
+
+    const convoContext = convoHist[userId].map((line) => line.replace(/^(User:|AI:)\s*/, "")).join("\n"); // sanitizing user and AI prefixes
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Used Gemini 1.5 model
+    const result = await model.generateContent(convoContext);
     const response = await result.response;
     const text = response.text();
+    convoHist[userId].push(`AI: ${text}`);
     await increaseAPILimit();
     return NextResponse.json({ text });
   } catch (error: unknown) {
