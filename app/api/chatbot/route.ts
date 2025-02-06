@@ -8,11 +8,11 @@ interface SafetyRatingProp {
   probability: string;
 }
 // Ensure environment variable is properly loaded
-if (!process.env.GOOGLE_GENERATIVE_AI_KEY2) {
+if (!process.env.GOOGLE_GENERATIVE_AI_KEY) {
   throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY2);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use Gemini 1.5 model
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Use Gemini 1.5 model
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
