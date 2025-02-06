@@ -8,11 +8,11 @@ interface SafetyRatingProp {
   probability: string;
 }
 // Ensure environment variable is properly loaded
-if (!process.env.GOOGLE_GENERATIVE_AI_KEY) {
+if (!process.env.GOOGLE_GENERATIVE_AI_KEY2) {
   throw new Error("GOOGLE_GENERATIVE_AI_KEY environment variable is not set");
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_KEY2);
 
 export async function POST(req: Request) {
   try {
