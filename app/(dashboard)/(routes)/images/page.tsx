@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { Nothing } from "@/components/Nothing";
 import { Loading } from "@/components/Loading";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
@@ -57,14 +57,15 @@ const ImageGen: React.FC = () => {
         premium.onOpen();
       } else if (error?.response?.status === 500) {
         toast.error("The feature is currently unavailable (for now). We are working on it! Please check back soon.",
-          {  position: "top-right",
+          {
+            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            }
+          }
         )
       }
       else {
@@ -134,7 +135,7 @@ const ImageGen: React.FC = () => {
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
       <Heading
         title="Visionary - Image Generator"
         description="Harness the power of AI models to effortlessly create and customize images"
@@ -244,6 +245,22 @@ const ImageGen: React.FC = () => {
             label="No images generated"
             imageSrc="/code-typing.png"
           />
+        )}
+        {images.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            {images.map((img, index) => (
+              <div key={index} className="relative">
+                <img src={img} alt={`Generated ${index}`} className="w-full rounded-lg shadow-md" />
+                <a
+                  href={img}
+                  download={`generated-image-${index}.jpg`}
+                  className="absolute bottom-2 right-2 bg-white text-black px-3 py-1 text-sm rounded-lg shadow hover:bg-gray-200"
+                >
+                  Download
+                </a>
+              </div>
+            ))}
+          </div>
         )}
         {/* <div className="flex flex-col justify-center items-center">Images rendered here</div> */}
       </div>
